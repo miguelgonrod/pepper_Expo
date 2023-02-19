@@ -1,15 +1,30 @@
-mport qi
+import qi
 import speech_recognition as sr
+from naoqi import ALProxy
+
 
 # connect to the robot
-session = qi.session()
-session.connect("tcp://192.168.1.100:9559")
+#session = qi.Session()
+#session.connect("tcp://192.168.1.100:9559")
 
 # get the speech recognition service
-speech_service.setLanguage("English")
+#speech_service = session.service("ALSpeechRecognition")
+
+# Set the language
+#speech_service.setLanguage("English")
 
 # subscribe to the recognized speech
-speech_service.subscribe("MySpeechRecognition")
+#speech_service.subscribe("MySpeechRecognition")
+
+asr = ALProxy("ALSpeechRecognition", "192.168.1.100", 9559)
+asr.pause(True)
+asr.setLanguage("English")
+
+vocabulary = ["yes", "no", "please"]
+asr.setVocabulary(vocabulary, False)
+
+asr.pause(False)
+asr.subscribe("Test_ASR")
 
 # create the speech recognizer
 recognizer = sr.Recognizer()
@@ -38,4 +53,4 @@ while True:
                 print("Could not understand audio")
         except sr.RequestError as e:
                 print("Could not request results from Google Speech Recognition service; {0}".format(e))
-                
+

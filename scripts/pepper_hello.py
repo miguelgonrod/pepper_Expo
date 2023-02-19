@@ -1,6 +1,8 @@
+#!/usr/bin/env python3
+
 import rospy
 from std_msgs.msg import String
-from naoqi_bridge_msgs.msg import SpeechWithFeedback
+import naoqi_bridge_msgs.msg
 
 def hello_callback(data):
         speech = SpeechWithFeedback()
@@ -9,5 +11,5 @@ def hello_callback(data):
         pub.publish(speech)
 
 rospy.init_node('hello_node', anonymous=True)
-rospy.Subscriber("/hello", String, hellocallback)
+rospy.Subscriber("/hello", String, hello_callback)
 rospy.spin()
